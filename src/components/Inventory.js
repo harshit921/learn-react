@@ -5,11 +5,14 @@ class Inventory extends React.Component {
 
 	constructor() {
 		super();
-		this.renderInventory = this.renderInventory.bind(this);
+
+    this.renderInventory = this.renderInventory.bind(this);
+    this.renderInventory = this.authenticate.bind(this);
+    this.renderInventory = this.handleChange.bind(this);
     this.renderLogin = this.renderLogin.bind(this);
     this.state = {
       uid: null ,
-      uid: null
+      owner: null
     }
 	}
 
@@ -35,6 +38,10 @@ class Inventory extends React.Component {
        </nav>)
   }
 
+  authenticate(provider) {
+    console.log(` Trying to login with ${provider}`);
+  }
+
   renderInventory(key){
   	const fish = this.props.fishes[key];
   	return(
@@ -53,7 +60,7 @@ class Inventory extends React.Component {
   }
 
   render() {
-    const logout = <button>LogOut!</button>
+    const logout = <button>Logout !</button>
     if(!this.state.uid){
       return <div>{this.renderLogin()}</div>
     }
@@ -62,6 +69,7 @@ class Inventory extends React.Component {
       return(
         <div>
           <p>Sorry youu are not store owner!.</p>
+          {logout}
         </div>
       )
     }
@@ -69,6 +77,7 @@ class Inventory extends React.Component {
     return (
       <div>
         <h2>Inventory</h2>
+        {logout}
         {Object.keys(this.props.fishes).map(this.renderInventory)}
         <AddFishForm addFish={this.props.addFish}/>
         <button onClick={this.props.loadSamples} > Load Sample Fishes </button>
