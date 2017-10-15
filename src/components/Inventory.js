@@ -6,6 +6,11 @@ class Inventory extends React.Component {
 	constructor() {
 		super();
 		this.renderInventory = this.renderInventory.bind(this);
+    this.renderLogin = this.renderLogin.bind(this);
+    this.state = {
+      uid: null ,
+      uid: null
+    }
 	}
 
   handleChange(e, key) {
@@ -15,6 +20,19 @@ class Inventory extends React.Component {
       [e.target.name]: e.target.value
     }
     this.props.updateFish(key, updatedFish);
+  }
+
+  renderLogin() {
+   return ( 
+    <nav className="login">
+       <h2>Inventory</h2>
+       <p>Sign in to manage your store's inventory</p>
+       <button className="github" onClick={() => this.authenticate('github')}>Login With Github</button>
+      <button className="facebook" onClick={() => this.authenticate('facebook')}>Login With facebook</button>
+      <button className="twitter" onClick={() => this.authenticate('twitter')}>Login With twitter</button>
+ 
+
+       </nav>)
   }
 
   renderInventory(key){
@@ -35,6 +53,19 @@ class Inventory extends React.Component {
   }
 
   render() {
+    const logout = <button>LogOut!</button>
+    if(!this.state.uid){
+      return <div>{this.renderLogin()}</div>
+    }
+
+    if(this.state.uid !== this.state.owner) {
+      return(
+        <div>
+          <p>Sorry youu are not store owner!.</p>
+        </div>
+      )
+    }
+
     return (
       <div>
         <h2>Inventory</h2>
@@ -44,6 +75,14 @@ class Inventory extends React.Component {
       </div>
     )
   }
+}
+
+Inventory.propTypes = {
+  fishes: React.PropTypes.object.isRequired,
+  updateFish:React.PropTypes.func.isRequired,
+  removeFish:React.PropTypes.func.isRequired,
+  addFish:React.PropTypes.func.isRequired,
+  loadSamples: React.PropTypes.func.isRequired
 }
 
 export default Inventory;
